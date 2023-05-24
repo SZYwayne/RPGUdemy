@@ -227,7 +227,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386459975}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.18, y: 0.32, z: 0}
+  m_LocalPosition: {x: 6.46, y: 0.52, z: 0}
   m_LocalScale: {x: 4.832625, y: 4.022483, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -287,7 +287,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 736985644}
   - component: {fileID: 736985645}
   - component: {fileID: 736985646}
+  - component: {fileID: 736985647}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -424,6 +425,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &736985647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736985643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 424e7d0acdaaa5543b5870cf2f31a3be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1175766927
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,8 +515,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1175766927}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0447, y: -2.77, z: 0}
-  m_LocalScale: {x: 17.26438, y: 1, z: 1}
+  m_LocalPosition: {x: 0.1991, y: -2.77, z: 0}
+  m_LocalScale: {x: 30.182972, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -545,8 +558,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1659739246}
   - component: {fileID: 1659739244}
-  - component: {fileID: 1659739248}
   - component: {fileID: 1659739249}
+  - component: {fileID: 1659739248}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -567,10 +580,10 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 1.5
+  m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 1a1694e6b019ea94a99819372094f0fd, type: 2}
+  m_GravityScale: 3.5
+  m_Material: {fileID: 6200000, guid: b2254f77718b8e54c93905f2de4fbdae, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -603,8 +616,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9011226fe9c20ee41ab6cbe3fe178b90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yInput: 10
-  xInput: 0
+  yInput: 12
+  xSpeed: 5
+  dashDuration: 0.25
+  dashColdown: 3
+  dashSpeed: 25
   groundCheckDistance: 1.4
   whatIsGround:
     serializedVersion: 2
