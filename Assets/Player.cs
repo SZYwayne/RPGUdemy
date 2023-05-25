@@ -1,17 +1,15 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
-    private Rigidbody2D rb;
-    private Animator anim;
-
-    private int facingDir = 1;
-    private bool facingRight = true;
+    [Header("Move Info")]
     [SerializeField] private float yInput;
     [SerializeField] private float xSpeed;
     private float xInput;
 
     [Header("Attack Info")]
+    [SerializeField] private float comboTime = 1.5f;
+    private float comboTimeCounter;
     private bool isAttacking;
     private int comboCounter;
 
@@ -22,36 +20,41 @@ public class Player : MonoBehaviour
     private float dashTime;
     private float dashCooldownTimer;
 
-    [Header("Collision info")]
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private LayerMask whatIsGround;
-    private bool isGrounded;
 
 
-    void Start()
+    protected override void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();
+        base.Start();
     }
 
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
+
         Movement();
         CheckInput();
-        CollisionChecks();
 
         dashTime -= Time.deltaTime;
         dashCooldownTimer -= Time.deltaTime;
-
+        comboTimeCounter -= Time.deltaTime;
 
         FlipController();
         AnimatorControllers();
     }
 
-    private void CollisionChecks()
+
+
+    public void AttackOver()
     {
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+        isAttacking = false;
+
+        comboCounter++;
+        if (comboCounter > 2)
+        {
+            comboCounter = 0;
+
+        }
     }
 
     private void CheckInput()
@@ -60,7 +63,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            isAttacking = true;
+            Attack();
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -74,9 +77,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        if (!isGrounded)
+        {
+            return;
+        }
+
+        isAttacking = true;
+
+        if (comboTimeCounter < 0)
+        {
+            comboCounter = 0;
+            comboTimeCounter = comboTime;
+        }
+
+    }
+
     private void DashAbility()
     {
-        if (dashCooldownTimer < 0)
+        if (dashCooldownTimer < 0 && !isAttacking)
         {
             dashTime = dashDuration;
             dashCooldownTimer = dashColdown;
@@ -86,9 +106,13 @@ public class Player : MonoBehaviour
 
     private void Movement()
     {
-        if (dashTime > 0)
+        if (isAttacking)
         {
-            rb.velocity = new Vector2(xInput * dashSpeed, 0);
+            rb.velocity = new Vector2(0, 0);
+        }
+        else if (dashTime > 0)
+        {
+            rb.velocity = new Vector2(facingDir * dashSpeed, 0);
         }
         else
         {
@@ -117,28 +141,5 @@ public class Player : MonoBehaviour
         }
 
     }
-
-    private void Flip()
-    {
-        facingDir *= -1;
-        facingRight = !facingRight;
-        transform.Rotate(0, 180, 0);
-    }
-
-    private void FlipController()
-    {
-        if (rb.velocity.x > 0 && !facingRight)
-        {
-            Flip();
-        }
-        else if (rb.velocity.x < 0 && facingRight)
-        {
-            Flip();
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - groundCheckDistance));
-    }
+    
 }
